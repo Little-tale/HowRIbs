@@ -14,6 +14,7 @@ protocol RootInteractable: Interactable, HomeListener {
 
 protocol RootViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
+    func present(vc: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
@@ -33,6 +34,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     func login(name: String) {
         let build = homeBuilder.build(withListener: interactor, name: name)
         attachChild(build)
+        viewController.present(vc: build.viewControllable)
     }
     
     func routeToHome() {

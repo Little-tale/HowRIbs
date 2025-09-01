@@ -18,4 +18,13 @@ protocol HomePresentableListener: AnyObject {
 final class HomeViewController: UIViewController, HomePresentable, HomeViewControllable {
 
     weak var listener: HomePresentableListener?
+    
+    override func loadView() {
+        super.loadView()
+        self.view.backgroundColor = .red
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }
