@@ -22,13 +22,15 @@ protocol HomeListener: AnyObject {
 }
 
 final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteractable, HomePresentableListener {
-
+   
     weak var router: HomeRouting?
     weak var listener: HomeListener?
+    private let name: String
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: HomePresentable) {
+    init(presenter: HomePresentable, name: String) {
+        self.name = name
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -42,4 +44,9 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         super.willResignActive()
         // TODO: Pause any business logic.
     }
+    
+    func getName() -> String {
+        return self.name
+    }
+    
 }
