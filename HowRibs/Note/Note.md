@@ -56,3 +56,26 @@ Builder <-> Component
 > State관리는 이친구가 관리
   - Child Rib에서는 Parent Rib의 내용을 이미 가지고 있다고 가정
   
+### Ribs Life cycle
+> Attach, Detach 상태가 존재하는데
+> Router에서 애니메이션 설정이 필요함
+> Router에 Will, did 라이프 사이클을 추가하여 사용하면 편리
+
+### Ribs의 단점
+> 하나의 기능에 많은 클래수 수와 하나의 파일에 여러가지 클래스가 존재
+> Ribs를 하나의 프로젝트에 전체를 종속 시켜야 하는 문제
+> Ribs 내부에 RxSwift가 내장되어 있는데 이것 또한 문제
+
+
+## Parent 와 자식 간의 데이터 교환시
+> Interface Listener 사용하여 소통함
+
+
+# Ribs 생성 방법
+ - Rib 생성
+ - 부모의 Router에 프로퍼티 적용: 생성된 Child Builder 프로퍼티 추가
+ - Dependency적용: Builder를 만들떄에 Componenet 주입
+                  컴포넌트는 부모의 컴포넌트 속성을 따름
+ - Builder 에 변경된 Router 내용 적용
+ 
+ ##
