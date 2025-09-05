@@ -10,8 +10,9 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func routToLogin()
     
-    func login(name: String)
+    func routToHome(name: String)
 }
 
 protocol RootPresentable: Presentable {
@@ -45,9 +46,11 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         // TODO: Pause any business logic.
     }
     
-    func tryLogin() {
-        // 예시임으로 간단하게 그냥 다음 화면으로 넘깁니다.
-        let name = "게스트"
-        router?.login(name: name)
+    func didLogin(name: String) {
+        router?.routToHome(name: name)
+    }
+    
+    func didRequestLogin() {
+        router?.routToLogin()
     }
 }

@@ -14,22 +14,14 @@ protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    
-    func tryLogin()
 }
 
 final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
-
-    weak var listener: RootPresentableListener?
     
-    // 시작 버튼
-    private let button = UIButton().after {
-        var config = UIButton.Configuration.filled()
-        config.title = "로그인"
-        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-        $0.configuration = config
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private let container = UIView()
+    private weak var current: UIViewController?
+    
+    weak var listener: RootPresentableListener?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -39,26 +31,39 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        view.addSubview(button)
-        
-    
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-        
-        button.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.listener?.tryLogin()
-            }
-            .disposed(by: rx.disposeBag)
+    override func loadView() {
+        super.loadView()
+        view = container
     }
     
-    func present(vc: ViewControllable) {
-        self.present(vc.uiviewController, animated: true, completion: nil)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+    }
+    
+    func setRoot(_ vc: ViewControllable, animated: Bool) {
+        let vc = vc.uiviewController
+        
+        if let current {
+            current.willMove(toParent: nil)
+            current.view.removeFromSuperview()
+            current.removeFromParent()
+        }
+        
+        addChild(vc)
+        vc.view.frame = container.bounds
+        vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        container.addSubview(vc.view)
+        vc.didMove(toParent: self)
+        current = vc
+        
+        if animated {
+            container.alpha = 0
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                guard let self else { return }
+                container.alpha = 1
+            }
+        }
     }
 }

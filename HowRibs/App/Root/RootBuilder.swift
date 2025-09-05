@@ -17,7 +17,7 @@ final class RootComponent: Component<RootDependency> {
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
-extension RootComponent: HomeDependency {
+extension RootComponent: HomeDependency, LoginDependency {
     
 }
 
@@ -41,7 +41,9 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         
         // MARK: Home
         let homeBuild = HomeBuilder(dependency: component)
+        // MARK: Login
+        let loginBuild = LoginBuilder(dependency: component)
         
-        return RootRouter(interactor: interactor, viewController: viewController, homeBuilder: homeBuild)
+        return RootRouter(interactor: interactor, viewController: viewController, loginBuilder: loginBuild, homeBuilder: homeBuild)
     }
 }
