@@ -99,6 +99,20 @@ Builder <-> Component
     3. 라우터는 인터랙터에서 구현해야 하는 간단하고 반복적인 라우팅 로직을 포함합니다.
        이러한 보일러플레이트 코드를 제거하면 인터랙터의 크기를 줄이고
        RIB에서 제공하는 핵심 비즈니스 로직에 더 집중할 수 있습니다.
+       
+### Router 종류
+  - Router<Interactable>
+  > 기본 라우터
+  > 뷰가 존재 하지 않는 경우에 사용
+  
+  - ViewableRouter<Interactable, ViewControllable>
+  > 뷰가 존재할 경우에 사용해야하는 라우터
+  > 즉 이 RIB이 ViewController를 가지고 있어야 함
+  > 자식의 화면을 Present/ Dismiss 하거나 교체 하여야 함
+  
+  - LaunchRouter<Interactable, ViewControllable>
+  > 앱 시작 지점 전용
+  > AppDelegate 에서 Launch 로 앱을 띄울때 쓰이는 루트 라우터
 
 ### Builder
 > RIB의 모든 구성 클래스, 각 자식에 대한 빌더를 인스턴스화
