@@ -23,13 +23,12 @@ extension Reactive where Base: AnyObject {
     var disposeBag: DisposeBag {
         get {
             return syncDisposeBag { () -> DisposeBag in
-                if let disposeBag = objc_getAssociatedObject(self, &disposeBagkey) as? DisposeBag {
-                    return disposeBag
-                } else {
-                    let disposeBag = DisposeBag()
-                    objc_setAssociatedObject(base, &disposeBagkey, disposeBag, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                if let disposeBag = objc_getAssociatedObject(base, &disposeBagkey) as? DisposeBag {
                     return disposeBag
                 }
+                let disposeBag = DisposeBag()
+                objc_setAssociatedObject(base, &disposeBagkey, disposeBag, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return disposeBag
             }
         }
         
