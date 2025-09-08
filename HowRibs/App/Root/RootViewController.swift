@@ -19,7 +19,7 @@ protocol RootPresentableListener: AnyObject {
 final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
     
     private let container = UIView()
-    private weak var current: UIViewController?
+    private weak var current: UINavigationController?
     
     weak var listener: RootPresentableListener?
     
@@ -42,27 +42,29 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     }
     
     func setRoot(_ vc: ViewControllable, animated: Bool) {
-        let vc = vc.uiviewController
+        let rootVC = vc.uiviewController
+        let nav = UINavigationController()
+        nav.setViewControllers([rootVC], animated: false) // 초기 세팅은 false 권장
         
+        // 기존 제거
         if let current {
             current.willMove(toParent: nil)
             current.view.removeFromSuperview()
             current.removeFromParent()
         }
         
-        addChild(vc)
-        vc.view.frame = container.bounds
-        vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addChild(nav)
+        container.addSubview(nav.view)
+        nav.view.frame = container.bounds
+        nav.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        nav.didMove(toParent: self)
+        current = nav
         
-        container.addSubview(vc.view)
-        vc.didMove(toParent: self)
-        current = vc
-        
+        // 페이드 인
         if animated {
             container.alpha = 0
             UIView.animate(withDuration: 0.2) { [weak self] in
-                guard let self else { return }
-                container.alpha = 1
+                self?.container.alpha = 1
             }
         }
     }

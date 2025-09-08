@@ -10,6 +10,9 @@ import RxSwift
 
 protocol HomeRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func routeToRandomColorView()
+    
+    func backToHome()
 }
 
 protocol HomePresentable: Presentable {
@@ -53,5 +56,13 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     func goBackToLogin() {
         listener?.didRequestLogin()
+    }
+    
+    func moveToRandomView() {
+        router?.routeToRandomColorView()
+    }
+    
+    func randomBack() {
+        router?.backToHome()
     }
 }

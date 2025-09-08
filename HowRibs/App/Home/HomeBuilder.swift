@@ -24,6 +24,10 @@ final class HomeComponent: Component<HomeDependency> {
     }
 }
 
+extension HomeComponent: RandomDependency {
+    
+}
+
 // MARK: - Builder
 
 protocol HomeBuildable: Buildable {
@@ -40,7 +44,10 @@ final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
         let component = HomeComponent(dependency: dependency, name: name)
         let viewController = HomeViewController()
         let interactor = HomeInteractor(presenter: viewController, name: name)
+        
+        let randomBuilder = RandomBuilder(dependency: component)
+        
         interactor.listener = listener
-        return HomeRouter(interactor: interactor, viewController: viewController)
+        return HomeRouter(interactor: interactor, viewController: viewController, randomColorBuilder: randomBuilder)
     }
 }
