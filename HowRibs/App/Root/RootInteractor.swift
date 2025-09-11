@@ -10,9 +10,9 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
-    func routToLogin()
+    func routeToLogin()
     
-    func routToHome(name: String)
+    func routeToHome(name: String)
 }
 
 protocol RootPresentable: Presentable {
@@ -25,6 +25,10 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
+    func moveToLogin() {
+        router?.routeToLogin()
+    }
+    
 
     weak var router: RootRouting?
     weak var listener: RootListener?
@@ -47,10 +51,10 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     }
     
     func didLogin(name: String) {
-        router?.routToHome(name: name)
+        router?.routeToHome(name: name)
     }
     
     func didRequestLogin() {
-        router?.routToLogin()
+        router?.routeToLogin()
     }
 }

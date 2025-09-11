@@ -41,9 +41,14 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         
         // MARK: Home
         let homeBuild = HomeBuilder(dependency: component)
+        
+        let homeFlowDependency = HomeFlowDependency()
+        let homeFlowComponent = HomeFlowComponent(dependency: dependency)
+        let homeFlow = HomeFlowBuilder(dependency: component)
+        
         // MARK: Login
         let loginBuild = LoginBuilder(dependency: component)
         
-        return RootRouter(interactor: interactor, viewController: viewController, loginBuilder: loginBuild, homeBuilder: homeBuild)
+        return RootRouter(interactor: interactor, viewController: viewController, loginBuilder: loginBuild, homeBuilder: homeFlow)
     }
 }

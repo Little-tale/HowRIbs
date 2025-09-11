@@ -68,4 +68,12 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
             }
         }
     }
+    
+    func push(_ vc: ViewControllable, animated: Bool) {
+        current?.navigationController?.pushViewController(vc.uiviewController, animated: animated)
+    }
+    
+    func pop(animated: Bool) {
+        current?.navigationController?.popViewController(animated: animated)
+    }
 }
