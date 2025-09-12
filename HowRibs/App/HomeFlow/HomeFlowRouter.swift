@@ -7,6 +7,24 @@
 
 import RIBs
 
+/*
+ Why Home Flow?
+ 
+ 👀 Flow를 끼는 이유
+ 
+ 이전 까진 Root -> Home 의 구조였는데
+ 사이에 Flow를 끼움으로써
+ 
+ Home 화면의 역활은 UI 입력 처리
+ Flow는 Home 의 화면전환을 관리하는 Attach/Detach 담당하게 되는 구조
+ 
+ 즉 책임을 또 분리 함으로써 단일책임을 확고
+ 
+ TCA편에서 구조화 하였듯 각 TabBar 의 코디네이션을 분리하듯이 이도 그런 구조를 취함
+ 
+ 다만 단일 화면에서는 필요가 없음
+ */
+
 protocol HomeFlowInteractable: Interactable, HomeListener, RandomListener {
     var router: HomeFlowRouting? { get set }
     var listener: HomeFlowListener? { get set }

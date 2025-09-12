@@ -16,6 +16,7 @@ final class RootComponent: Component<RootDependency> {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
     
+    // MARK: Memory Leak Check PASS with Instruments - Leaks
     private let rootVc: RootViewController
     
     init(dependency: RootDependency, rootVc: RootViewController) {
