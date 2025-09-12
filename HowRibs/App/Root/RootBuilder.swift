@@ -15,10 +15,32 @@ protocol RootDependency: Dependency {
 final class RootComponent: Component<RootDependency> {
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    
+    private let rootVc: RootViewController
+    
+    init(dependency: RootDependency, rootVc: RootViewController) {
+        self.rootVc = rootVc
+        super.init(dependency: dependency)
+    }
 }
 
-extension RootComponent: HomeDependency, LoginDependency {
+extension RootComponent: LoginDependency {
     
+}
+
+extension RootComponent: HomeFlowDependency, HomeDependency, RandomDependency {
+    
+    var rootVC: RootViewControllable {
+        return rootVc
+    }
+    
+    var homeBuilder: HomeBuildable {
+        HomeBuilder(dependency: self)
+    }
+    
+    var randomBuilder: RandomBuildable {
+        RandomBuilder(dependency: self)
+    }
 }
 
 // MARK: - Builder
@@ -34,21 +56,19 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
     }
 
     func build() -> LaunchRouting {
-        let component = RootComponent(dependency: dependency)
         let viewController = RootViewController()
+        let component = RootComponent(dependency: dependency, rootVc: viewController)
+        
         let interactor = RootInteractor(presenter: viewController)
         
+        let loginBuilder    = LoginBuilder(dependency: component)
+        let homeFlowBuilder = HomeFlowBuilder(dependency: component)
         
-        // MARK: Home
-        let homeBuild = HomeBuilder(dependency: component)
-        
-        let homeFlowDependency = HomeFlowDependency()
-        let homeFlowComponent = HomeFlowComponent(dependency: dependency)
-        let homeFlow = HomeFlowBuilder(dependency: component)
-        
-        // MARK: Login
-        let loginBuild = LoginBuilder(dependency: component)
-        
-        return RootRouter(interactor: interactor, viewController: viewController, loginBuilder: loginBuild, homeBuilder: homeFlow)
+        return RootRouter(
+            interactor: interactor,
+            viewController: viewController,
+            loginBuilder: loginBuilder,
+            homeFlowBuilder: homeFlowBuilder
+        )
     }
 }
