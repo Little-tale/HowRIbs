@@ -29,7 +29,6 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         router?.routeToLogin()
     }
     
-
     weak var router: RootRouting?
     weak var listener: RootListener?
 
